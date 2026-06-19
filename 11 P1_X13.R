@@ -32,7 +32,7 @@ data <- readRDS('bases_final.RDS')
 source("50 Complementarias.R")
 
 
-#3 gen series tiempo: icl / ir / irr -------------------------------------------
+#3 gen series tiempo -----------------------------------------------------------
 
 anio_i <- lubridate::year(min(data$fecha))
 mes_i <- lubridate::month(min(data$fecha))
@@ -42,7 +42,7 @@ st <- ts(data = data$icl,
           start = c(anio_i,mes_i))
 
 
-#4 ICL Models_result (resultados parciales modelos) ----------------------------
+#4 Models_result (resultados parciales modelos) ----------------------------
 
 st_m <- readRDS("Models_result_st.rds")  
 st_ranking <- st_m[[1]]
@@ -156,17 +156,17 @@ lb <- tibble()
 
 #i = 2
 
-for (i in seq_along(icl_lb)) {
+for (i in seq_along(st_lb)) {
   
-  data <- tibble(lb = icl_lb[[i]]$statistic,
-                 pvlb = icl_lb[[i]]$p.value)
+  data <- tibble(lb = st_lb[[i]]$statistic,
+                 pvlb = st_lb[[i]]$p.value)
   
   lb <- bind_rows(lb,data)
   
 }
 
-icl_branking <- 
-  bind_cols(icl_ranking[c(1:32),],
+st_branking <- 
+  bind_cols(st_ranking[c(1:32),],
             lb) 
 
 
@@ -181,16 +181,12 @@ v <- c(0.9894,0.9897,0.9885,0.9915,
        0.9919,0.971 ,0.9557,0.9615 )
 
 
-icl_branking %<>%
+st_branking %<>%
   mutate(pvsh = v,
          regs = vect)
 
 
-#summary(icl_list[[2]])
-
-
-
-saveRDS(icl_branking, file = paste0(ruta_f,'/icl_branking.rds'))
+saveRDS(st_branking, file = "st_branking.rds")
 
 
 
