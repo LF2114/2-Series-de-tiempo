@@ -143,8 +143,8 @@ vect <- c(1,0,2,1,1,1,2,1,3,4,
           1,2)
 
 #test Ljung-Box
-icl_lb <- 
-  map2(icl_list,
+st_lb <- 
+  map2(st_list,
        vect,
        ~ Box.test(residuals(.x),
                   lag = 24,
